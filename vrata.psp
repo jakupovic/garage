@@ -1,0 +1,53 @@
+<!--<form action="/cgi-bin/door.py" method="get">
+<input type="submit" value="Submit" />
+</form>
+-->
+<%
+# Import modules for CGI handling 
+import cgi, cgitb, serial, os, sys
+
+class Arduino():
+    def __init__(self, path='/dev/ttyUSB0', baud=9600):
+            path = self.find_usb_serial()
+            self.ser = serial.Serial(path, baud)	
+            self.path = path
+    def find_usb_serial(self):
+        port = ["/dev/" + i for i in os.listdir('/dev/') if i.find('ttyUSB') != -1]
+        # return the first port found
+        return port[0]
+
+    def send(self, data):
+            self.ser.write(data)
+    def read(self, bytes):
+        while (1):
+            if (self.ser.inWaiting() > bytes-1):
+                return self.ser.read(bytes)
+    def flush():
+            self.ser.flushInput()
+
+    def flip(self):
+        a.send('~');
+        a.send('o');
+        a.send('n');
+        a.send('~')
+
+# Create instance of FieldStorage 
+# form = cgi.FieldStorage() 
+# Get data from fields
+# first_name = form.getvalue('first_name')
+# last_name  = form.getvalue('last_name')
+%>
+<html>
+<head>
+<META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
+</head>
+<body>
+<h1>
+    <font size="96"><a href="http://vrata.hopto.org/vrata.psp">OTVORI SE SEZAME</a></font>
+<% 
+a = Arduino()
+a.flip()
+%>
+</h1>
+</body>
+</html>
