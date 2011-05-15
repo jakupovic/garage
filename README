@@ -1,0 +1,16 @@
+How to open garage
+
+add web user to dialout group
+sudo usermod -aG dialout www-data
+
+enable psp support (python embedded)
+        <Directory /var/www/>
+                Options Indexes FollowSymLinks MultiViews
+                AllowOverride None
+                Order allow,deny
+                allow from all
+                AddHandler mod_python .psp
+                PythonHandler mod_python.psp
+                PythonDebug On
+        </Directory>
+
